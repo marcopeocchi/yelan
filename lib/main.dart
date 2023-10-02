@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yelan/builds/store/characters_store.dart';
 import 'package:yelan/builds/views/element_page.dart';
 import 'package:yelan/core/container.dart';
@@ -11,6 +13,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await InjectionContainer.init();
   await InjectionContainer.sl.allReady();
+
+  if (!kReleaseMode) {
+    final SharedPreferences preferences = InjectionContainer.sl();
+    await preferences.clear();
+  }
+
   runApp(const MyApp());
 }
 
@@ -64,65 +72,68 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      children: [
-        ElementPage(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.red,
-            brightness: Theme.of(context).brightness,
-          ),
-          mainColor: Colors.red,
-          element: GenshinElement.pyro,
+    final pages = [
+      ElementPage(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.red,
+          brightness: Theme.of(context).brightness,
         ),
-        ElementPage(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue,
-            brightness: Theme.of(context).brightness,
-          ),
-          mainColor: Colors.blue,
-          element: GenshinElement.hydro,
+        mainColor: Colors.red,
+        element: GenshinElement.pyro,
+      ),
+      ElementPage(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Theme.of(context).brightness,
         ),
-        ElementPage(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.teal,
-            brightness: Theme.of(context).brightness,
-          ),
-          mainColor: Colors.teal,
-          element: GenshinElement.anemo,
+        mainColor: Colors.blue,
+        element: GenshinElement.hydro,
+      ),
+      ElementPage(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.teal,
+          brightness: Theme.of(context).brightness,
         ),
-        ElementPage(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-            brightness: Theme.of(context).brightness,
-          ),
-          mainColor: Colors.deepPurple,
-          element: GenshinElement.electro,
+        mainColor: Colors.teal,
+        element: GenshinElement.anemo,
+      ),
+      ElementPage(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Theme.of(context).brightness,
         ),
-        ElementPage(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.green,
-            brightness: Theme.of(context).brightness,
-          ),
-          mainColor: Colors.green,
-          element: GenshinElement.dendro,
+        mainColor: Colors.deepPurple,
+        element: GenshinElement.electro,
+      ),
+      ElementPage(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green,
+          brightness: Theme.of(context).brightness,
         ),
-        ElementPage(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.lightBlue,
-            brightness: Theme.of(context).brightness,
-          ),
-          mainColor: Colors.lightBlue,
-          element: GenshinElement.cryo,
+        mainColor: Colors.green,
+        element: GenshinElement.dendro,
+      ),
+      ElementPage(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.lightBlue,
+          brightness: Theme.of(context).brightness,
         ),
-        ElementPage(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.amber,
-            brightness: Theme.of(context).brightness,
-          ),
-          mainColor: Colors.amber,
-          element: GenshinElement.geo,
+        mainColor: Colors.lightBlue,
+        element: GenshinElement.cryo,
+      ),
+      ElementPage(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.amber,
+          brightness: Theme.of(context).brightness,
         ),
-      ],
+        mainColor: Colors.amber,
+        element: GenshinElement.geo,
+      ),
+    ];
+    return PageView.builder(
+      itemBuilder: (context, index) {
+        return pages[index];
+      },
     );
   }
 }

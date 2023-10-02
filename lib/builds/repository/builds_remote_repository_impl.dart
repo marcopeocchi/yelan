@@ -39,15 +39,16 @@ class BuildsRemoteRepositoryImpl implements BuildsRemoteRepository {
           error: error,
           stacktrace: stackTrace,
         ),
-      ).flatMap(_cacheItems);
+      ).flatMap((r) => _cacheItems(element, r));
 
   TaskEither<Failure, List<Character>> _cacheItems(
+    GenshinElement element,
     List<Character> characters,
   ) =>
       TaskEither.tryCatch(
         () async {
           preferences.setStringList(
-            _cachingKey,
+            '$_cachingKey-$element',
             characters
                 .map((character) => jsonEncode(character.toJson()))
                 .toList(),

@@ -18,7 +18,7 @@ class BuildsLocalRepositoryImpl implements BuildsLocalRepository {
   TaskEither<Failure, List<Character>> getByElement(GenshinElement element) =>
       TaskEither<Failure, List<Character>>.tryCatch(
         () async {
-          var characters = preferences.getStringList(_cachingKey);
+          var characters = preferences.getStringList('$_cachingKey-$element');
           characters ??= List.empty();
 
           return characters

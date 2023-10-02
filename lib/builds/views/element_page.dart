@@ -35,6 +35,17 @@ class _ElementPageState extends State<ElementPage> {
     store.getByElement(widget.element);
   }
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      Provider.of<ThemeChanger>(
+        context,
+        listen: false,
+      ).setSeedColor(widget.mainColor);
+    });
+  }
+
   Future navigateToDetail(Character character) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
@@ -45,17 +56,6 @@ class _ElementPageState extends State<ElementPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () async {
-      Provider.of<ThemeChanger>(
-        context,
-        listen: false,
-      ).setSeedColor(widget.mainColor);
-    });
   }
 
   @override
@@ -94,9 +94,7 @@ class _ElementPageState extends State<ElementPage> {
                         backgroundColor: widget.colorScheme.inversePrimary,
                         textColor: widget.colorScheme.inverseSurface,
                       ),
-                      onTap: () => navigateToDetail(
-                        character,
-                      ),
+                      onTap: () => navigateToDetail(character),
                     ),
                   );
                 },

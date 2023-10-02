@@ -60,13 +60,9 @@ class ImagesRepositoryImpl implements ImagesRepository {
           final req = await client.getUrl(uri);
           final res = await req.close();
 
-          var cacheDir = await getApplicationDocumentsDirectory();
+          final cacheDir =
+              await (await getApplicationCacheDirectory()).create();
 
-          if (Platform.isAndroid) {
-            cacheDir = await getApplicationCacheDirectory();
-          }
-
-          cacheDir = await cacheDir.create();
           final filename = ci.query.replaceAll(' ', '');
 
           final file = await File('${cacheDir.path}/$filename').create(

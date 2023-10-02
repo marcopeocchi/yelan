@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:yelan/builds/model/character.dart';
 import 'package:yelan/core/utils.dart';
 import 'package:yelan/images/widgets/character_image.dart';
@@ -45,7 +46,13 @@ class CharacterDetailsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...character.builds
-                            .map((b) => _Build(characterBuild: b))
+                            .mapWithIndex(
+                              (b, i) => _Build(
+                                characterBuild: b,
+                                index: i,
+                                length: character.builds.length,
+                              ),
+                            )
                             .toList()
                       ],
                     ),
@@ -60,17 +67,17 @@ class CharacterDetailsPage extends StatelessWidget {
   }
 }
 
-class _Build extends StatefulWidget {
+class _Build extends StatelessWidget {
   final Build characterBuild;
+  final int length;
+  final int index;
+
   const _Build({
     required this.characterBuild,
+    required this.length,
+    required this.index,
   });
 
-  @override
-  State<_Build> createState() => __BuildState();
-}
-
-class __BuildState extends State<_Build> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -81,13 +88,15 @@ class __BuildState extends State<_Build> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.characterBuild.role.toUpperCase(),
+              characterBuild.optimal
+                  ? '${characterBuild.role.toUpperCase()} (optimal)'
+                  : characterBuild.role.toUpperCase(),
               style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox.fromSize(size: const Size(0, 16)),
+            const SizedBox(height: 16.0),
             const Text(
               'Artifacts',
               style: TextStyle(
@@ -95,16 +104,11 @@ class __BuildState extends State<_Build> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            ...widget.characterBuild.artifacts
-                .map(
-                  (a) => Text(
-                    a,
-                    style: const TextStyle(),
-                  ),
-                )
+            ...characterBuild.artifacts
+                .map((a) => Text('• $a'))
                 .toList()
                 .toList(),
-            SizedBox.fromSize(size: const Size(0, 16)),
+            const SizedBox(height: 16.0),
             const Text(
               'Weapons',
               style: TextStyle(
@@ -112,13 +116,58 @@ class __BuildState extends State<_Build> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            ...widget.characterBuild.equipment
-                .map((a) => Text(
-                      a,
-                      style: const TextStyle(),
-                    ))
-                .toList(),
-            const SizedBox(height: 8.0),
+            ...characterBuild.equipment.map((a) => Text('• $a')).toList(),
+            const SizedBox(height: 16.0),
+            const Text(
+              'Artifacts main stats',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Wrap(
+              children: [
+                const Text('Sands: '),
+                Text(
+                  characterBuild.artifactsMainStats.sands ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
+            ),
+            Wrap(
+              children: [
+                const Text('Goblet: '),
+                Text(
+                  characterBuild.artifactsMainStats.goblet ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
+            ),
+            Wrap(
+              children: [
+                const Text('Circlet: '),
+                Text(
+                  characterBuild.artifactsMainStats.circlet ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            const Text(
+              'Talents priority (more cardinal to less)',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            ...characterBuild.talentPriority.map((a) => Text('• $a')).toList(),
+            const SizedBox(height: 32.0),
+            index != length - 1
+                ? Divider(color: Theme.of(context).dividerColor)
+                : const SizedBox(),
           ],
         ),
       ),

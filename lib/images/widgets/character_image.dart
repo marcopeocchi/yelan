@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:yelan/core/container.dart';
+import 'package:provider/provider.dart';
 import 'package:yelan/images/store/images_store.dart';
 
 class CharachterImage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _CharachterImageState extends State<CharachterImage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    store = InjectionContainer.sl();
+    store = Provider.of<ImagesStore>(context);
     store.getImagesByName(widget.name);
   }
 
