@@ -1,16 +1,10 @@
 # yelan
 
-A new Flutter project.
+A demo application showing the potential of functional programming and repository pattern. Genshin themed!
 
-## Getting Started
+![Simulator Screenshot - iPhone 15 - 2023-10-02 at 11 01 53](https://github.com/marcopeocchi/yelan/assets/35533749/1e23daeb-30c7-48a9-a1e2-3cc1a52eb316)
+![Simulator Screenshot - iPhone 15 - 2023-10-02 at 11 02 03](https://github.com/marcopeocchi/yelan/assets/35533749/7870cb1a-25df-4522-9cd0-a20fd676385e)
+![Screenshot_1696237846](https://github.com/marcopeocchi/yelan/assets/35533749/75e9abc9-e66a-4d15-af64-80dc4c6ed421)
+![Screenshot_1696237842](https://github.com/marcopeocchi/yelan/assets/35533749/1c3a3f62-3c5c-4547-9c99-5e344f915d9d)
+![Screenshot_1696237852](https://github.com/marcopeocchi/yelan/assets/35533749/3085039d-e61b-4bb7-9a5f-72211c55a18b)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
